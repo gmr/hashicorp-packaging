@@ -4,7 +4,7 @@ TEMPLATE_VERSION=0.7.0
 ENVCONSUL_VERSION=0.5.0
 PACKAGER="Gavin M. Roy <gavinr@aweber.com>"
 ARCH=amd64
-ITERATION=1
+ITERATION=2
 
 all: debs
 
@@ -12,11 +12,15 @@ clean:
 	@( rm -rf build/* )
 	@( rm -rf dist/* )
 
+
 debs: dist/consul_${CONSUL_VERSION}-${ITERATION}_{ARCH}.deb \
 			dist/consul-replicate_${REPLICATE_VERSION}-${ITERATION}.deb \
 			dist/consul-template_${TEMPLATE_VERSION}-${ITERATION}.deb \
 			dist/consul-webui_${CONSUL_VERSION}-${ITERATION}.deb \
 			dist/envconsul_${ENVCONSUL_VERSION}-${ITERATION}.deb
+
+consul: dist/consul_${CONSUL_VERSION}-${ITERATION}_{ARCH}.deb
+
 
 dist/consul_${CONSUL_VERSION}-${ITERATION}_{ARCH}.deb: build/consul/usr/sbin/consul
 	@( mkdir -p dist )
@@ -27,6 +31,7 @@ dist/consul_${CONSUL_VERSION}-${ITERATION}_{ARCH}.deb: build/consul/usr/sbin/con
 			-C build/consul \
 			--package dist/consul_${CONSUL_VERSION}-${ITERATION}_${ARCH}.deb \
 			--name consul --version ${CONSUL_VERSION} --iteration ${ITERATION} \
+			--deb-changelog changes/consul \
 			--config-files etc/consul.d/00-consul.json \
 			--deb-default build/consul/etc/default/consul \
 			--deb-upstart build/consul/etc/init/consul \
@@ -40,6 +45,7 @@ dist/consul-webui_${CONSUL_VERSION}-${ITERATION}.deb: build/consul-webui/usr/sha
 	@( cp -R templates/consul-webui/* build/consul-webui/ )
 	@( fpm -s dir -t deb -m ${PACKAGER} -a ${ARCH} \
 			-C build/consul-webui \
+			--deb-changelog changes/consul-webui \
 			--package dist/consul-webui_${CONSUL_VERSION}-${ITERATION}.deb \
 			--config-files etc/consul.d/10-webui.json \
 			--name consul-webui --version ${CONSUL_VERSION} --iteration ${ITERATION} \
@@ -54,6 +60,7 @@ dist/consul-replicate_${REPLICATE_VERSION}-${ITERATION}.deb: build/consul-replic
 			-C build/consul-replicate \
 			--package dist/consul-replicate_${REPLICATE_VERSION}-${ITERATION}.deb \
 			--name consul-replicate --version ${REPLICATE_VERSION} --iteration ${ITERATION} \
+			--deb-changelog changes/consul-replicate \
 			--deb-default build/consul-replicate/etc/default/consul-replicate \
 			--deb-upstart build/consul-replicate/etc/init/consul-replicate \
 			--provides consul-replicate \
@@ -68,6 +75,7 @@ dist/consul-template_${TEMPLATE_VERSION}-${ITERATION}.deb: build/consul-template
 			-C build/consul-template \
 			--package dist/consul-template_${TEMPLATE_VERSION}-${ITERATION}.deb \
 			--name consul-template --version ${TEMPLATE_VERSION} --iteration ${ITERATION} \
+			--deb-changelog changes/consul-template \
 			--config-files etc/consul-template.d/00-default.hcl \
 			--deb-default build/consul-template/etc/default/consul-template \
 			--deb-upstart build/consul-template/etc/init/consul-template \
@@ -83,6 +91,7 @@ dist/envconsul_${ENVCONSUL_VERSION}-${ITERATION}.deb: build/envconsul/usr/sbin/e
 			-C build/envconsul \
 			--package dist/envconsul_${ENVCONSUL_VERSION}-${ITERATION}.deb \
 			--name envconsul --version ${ENVCONSUL_VERSION} --iteration ${ITERATION} \
+			--deb-changelog changes/envconsul \
 			--config-files etc/envconsul.d/00-default.hcl \
 			--deb-default build/envconsul/etc/default/envconsul \
 			--deb-upstart build/envconsul/etc/init/envconsul \
