@@ -1,0 +1,3 @@
+# Options for Consul
+# See https://consul.io for more details
+CONSUL_OPTIONS=""
