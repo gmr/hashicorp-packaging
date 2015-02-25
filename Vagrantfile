@@ -7,6 +7,7 @@ VAGRANTFILE_API_VERSION = '2'
 $install = <<INSTALL
 sudo apt-get update -q
 sudo apt-get install -y -qq ruby-dev build-essential curl unzip
+sudo gem install fpm
 INSTALL
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
