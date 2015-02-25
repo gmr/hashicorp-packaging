@@ -1,0 +1,18 @@
+# Consul-Template
+#
+# Generic template rendering and notifications with Consul
+
+description "Consul-Template"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+umask 022
+
+pre-start script
+    test -x /usr/sbin/consul-template || { stop; exit 0; }
+end script
+
+exec consul-template -config=/etc/consul-template.d/ $CONSUL_TEMPLATE_OPTIONS

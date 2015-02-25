@@ -1,0 +1,3 @@
+# Options for Consul Template
+# See https://github.com/hashicorp/consul-template/ for more details
+CONSUL_TEMPLATE_OPTIONS=""

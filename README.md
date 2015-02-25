@@ -8,10 +8,10 @@ Packages built
 --------------
 
 - consul
-- consul-webui
+- consul-replicate
 - consul-template
+- consul-webui
 - envconsul
-- consul-replicator
 
 Usage
 -----

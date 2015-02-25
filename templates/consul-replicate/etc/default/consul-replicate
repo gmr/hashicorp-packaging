@@ -1,0 +1,6 @@
+# Options for Consul Replicate
+# See https://github.com/hashicorp/consul-replicate/ for more details
+CONSUL_REPLICATE_PREFIX="global/"
+CONSUL_REPLICATE_SRC="src"
+CONSUL_REPLICATE_SRC_PREFIX="global/"
+CONSUL_REPLICATE_OPTIONS=""
