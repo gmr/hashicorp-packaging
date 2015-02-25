@@ -13,7 +13,7 @@ clean:
 	@( rm -rf dist/* )
 
 debs: dist/consul_${CONSUL_VERSION}-${ITERATION}_{ARCH}.deb \
-		  dist/consul-replicate_${REPLICATE_VERSION}-${ITERATION}.deb \
+			dist/consul-replicate_${REPLICATE_VERSION}-${ITERATION}.deb \
 			dist/consul-template_${TEMPLATE_VERSION}-${ITERATION}.deb \
 			dist/consul-webui_${CONSUL_VERSION}-${ITERATION}.deb \
 			dist/envconsul_${ENVCONSUL_VERSION}-${ITERATION}.deb
