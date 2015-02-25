@@ -106,7 +106,6 @@ build/consul-template/usr/sbin/consul-template:
 	@( echo "Downloading consul-template ${TEMPLATE_VERSION}" )
 	@( mkdir -p build/consul-template/usr/sbin )
 	@( curl -s -L https://github.com/hashicorp/consul-template/releases/download/v${TEMPLATE_VERSION}/consul-template_${TEMPLATE_VERSION}_linux_${ARCH}.tar.gz | tar xvz -C build/consul-template/usr/sbin --strip-components=1 )
-	https://github.com/hashicorp/consul-replicate/releases/download/v0.1.0/consul-replicate_linux_amd64
 
 build/consul-webui/usr/share/consul-webui:
 	@( echo "Downloading consul-webui ${CONSUL_VERSION}" )
