@@ -1,10 +1,10 @@
 CONSUL_VERSION=0.5.0
 REPLICATE_VERSION=0.1.0
-TEMPLATE_VERSION=0.7.0
+TEMPLATE_VERSION=0.8.0
 ENVCONSUL_VERSION=0.5.0
 PACKAGER="Gavin M. Roy <gavinr@aweber.com>"
 ARCH=amd64
-ITERATION=2
+ITERATION=1
 
 all: consul consul-replicate consul-template consul-webui envconsul
 
@@ -84,8 +84,9 @@ dist/consul-template_${TEMPLATE_VERSION}-${ITERATION}_${ARCH}.deb: build/consul-
 			--deb-changelog changes/consul-template \
 			--config-files etc/consul-template.d/00-default.hcl \
 			--deb-default build/consul-template/etc/default/consul-template \
-			--deb-upstart build/consul-template/etc/init/consul-template \
+			--deb-upstart build/consul-template/etc/init/consul-template.conf \
 			--provides consul-template \
+			--exclude /etc/conf/consul-template.conf.conf \
 			--description "Generic template rendering and notifications with Consul" . )
 
 dist/envconsul_${ENVCONSUL_VERSION}-${ITERATION}_${ARCH}.deb: build/envconsul/usr/sbin/envconsul

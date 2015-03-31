@@ -2,10 +2,10 @@ consul-replicate (0.1.0-2) trusty; urgency=low
 
   * Fix file size issues.
 
- -- Gavin M. Roy <gavinr@aweber.com>  Wed, 25 Feb 2005 19:54:37 +0000
+ -- Gavin M. Roy <gavinr@aweber.com>  Wed, 25 Feb 2015 19:54:37 +0000
 
 consul-replicate (0.1.0-1) trusty; urgency=low
 
   * New upstream release.
 
- -- Gavin M. Roy <gavinr@aweber.com>  Wed, 25 Feb 2005 19:29:37 +0000
+ -- Gavin M. Roy <gavinr@aweber.com>  Wed, 25 Feb 2015 19:29:37 +0000
