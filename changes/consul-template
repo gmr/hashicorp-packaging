@@ -1,3 +1,15 @@
+consul-template (0.9.0-1) trusty; urgency=low
+
+  * Add Vault functionality for querying secrets from Vault (GH-264)
+  * Add regexMatch template helper to determine if a result matches the given regular expressions (GH-246)
+  * Add support for ssl-cert and ss-ca-cert options (GH-255)
+  * Expand byTag to accept catalog services as well (GH-249, GH-250)
+  * Allow catalog service tags to use the .Contains function (GH-261)
+  * Send the standard error of commands back over the standard error of Consul Template (GH-253, GH-254)
+  * Allow specifying -v in addition to -version to get the version output
+
+-- Gavin M. Roy <gavinr@aweber.com>  Thu, 28 May 2015 10:48:00 +0000
+
 consul-template (0.8.0-1) trusty; urgency=low
 
   * Add .Size() so the watcher can report its size (GH-206)

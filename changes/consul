@@ -1,3 +1,12 @@
+consul (0.5.2-1) trusty; urgency=low
+
+  * Include datacenter in the members output
+  * HTTP Health Check sets user agent "Consul Health Check" [GH-951]
+  * Fixed memory leak caused by blocking query [GH-939]
+  * Remove unused constant [GH-941]
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 28 May 2015 10:45:00 +0000
+
 consul (0.5.0-2) trusty; urgency=low
 
   * Fix file size issues.
