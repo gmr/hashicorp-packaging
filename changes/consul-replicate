@@ -1,4 +1,4 @@
-consul-replicate (0.2.0-2) trusty; urgency=low
+consul-replicate (0.2.0-1) trusty; urgency=low
 
   * -status is no longer used and is not replaced - -status-dir is the closest replacement
   * Remove support for leader election - use consul lock instead (requires Consul 0.5+)
