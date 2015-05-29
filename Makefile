@@ -25,7 +25,7 @@ consul-template: dist/consul-template_${TEMPLATE_VERSION}-${TEMPLATE_ITERATION}_
 
 consul-webui: dist/consul-webui_${CONSUL_VERSION}-${CONSUL_ITERATION}_all.deb
 
-envconsul: dist/envconsul_${ENVCONSUL_VERSION}-${CONSUL_ITERATION}_${ARCH}.deb
+envconsul: dist/envconsul_${ENVCONSUL_VERSION}-${ENVCONSUL_ITERATION}_${ARCH}.deb
 
 dist/consul_${CONSUL_VERSION}-${CONSUL_ITERATION}_${ARCH}.deb: build/consul/usr/sbin/consul
 	@( mkdir -p dist )
