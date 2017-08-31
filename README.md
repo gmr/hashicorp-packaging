@@ -10,8 +10,8 @@ Packages built
 - consul
 - consul-replicate
 - consul-template
-- consul-webui
 - envconsul
+- hashi-ui
 
 Usage
 -----

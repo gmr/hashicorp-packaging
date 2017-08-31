@@ -1,3 +1,9 @@
+consul-replicate (0.4.0-1) trusty; urgency=low
+
+  * New upstream release.
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 31 Aug 2017 17:00:00 -0400
+
 consul-replicate (0.2.0-1) trusty; urgency=low
 
   * -status is no longer used and is not replaced - -status-dir is the closest replacement

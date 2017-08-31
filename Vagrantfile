@@ -11,10 +11,12 @@ sudo gem install fpm
 INSTALL
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = 'Ubuntu'
+  config.vm.box = 'ubuntu/trusty64'
   config.vm.provision 'shell', inline: $install
   config.vm.synced_folder '.', '/home/vagrant/src'
-  config.berkshelf.enabled = false
+  if Vagrant.has_plugin?('berkshelf') then
+    config.berkshelf.enabled = false
+  end
   if Vagrant.has_plugin?('vagrant-vbguest') then
     config.vbguest.auto_update = false
   end

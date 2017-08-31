@@ -1,17 +1,19 @@
-CONSUL_VERSION=0.5.2
-REPLICATE_VERSION=0.2.0
-TEMPLATE_VERSION=0.9.0
-ENVCONSUL_VERSION=0.5.0
+CONSUL_VERSION=0.9.2
+REPLICATE_VERSION=0.4.0
+TEMPLATE_VERSION=0.19.1
+ENVCONSUL_VERSION=0.7.2
+HASHIUI_VERSION=0.17.0
 
 CONSUL_ITERATION=1
-ENVCONSUL_ITERATION=2
+ENVCONSUL_ITERATION=1
+HASHIUI_ITERATION=1
 REPLICATE_ITERATION=1
 TEMPLATE_ITERATION=1
 
 PACKAGER="Gavin M. Roy <gavinr@aweber.com>"
 ARCH=amd64
 
-all: consul consul-replicate consul-template consul-webui envconsul
+all: consul consul-replicate consul-template envconsul hashi-ui
 
 clean:
 	@( rm -rf build/* )
@@ -23,9 +25,9 @@ consul-replicate: dist/consul-replicate_${REPLICATE_VERSION}-${REPLICATE_ITERATI
 
 consul-template: dist/consul-template_${TEMPLATE_VERSION}-${TEMPLATE_ITERATION}_${ARCH}.deb
 
-consul-webui: dist/consul-webui_${CONSUL_VERSION}-${CONSUL_ITERATION}_all.deb
-
 envconsul: dist/envconsul_${ENVCONSUL_VERSION}-${ENVCONSUL_ITERATION}_${ARCH}.deb
+
+hashi-ui: dist/hashi-ui_${HASHIUI_VERSION}-${HASHIUI_ITERATION}_${ARCH}.deb
 
 dist/consul_${CONSUL_VERSION}-${CONSUL_ITERATION}_${ARCH}.deb: build/consul/usr/sbin/consul
 	@( mkdir -p dist )
@@ -40,24 +42,9 @@ dist/consul_${CONSUL_VERSION}-${CONSUL_ITERATION}_${ARCH}.deb: build/consul/usr/
 			--category utils \
 			--config-files etc/consul.d/00-consul.json \
 			--deb-default build/consul/etc/default/consul \
-			--deb-upstart build/consul/etc/init/consul \
+			--deb-upstart build/consul/etc/init/consul.conf \
 			--provides consul \
 			--description "Consul is a tool for service discovery, monitoring and configuration" . )
-
-dist/consul-webui_${CONSUL_VERSION}-${CONSUL_ITERATION}_all.deb: build/consul-webui/usr/share/consul-webui
-	@( mkdir -p dist )
-	@( echo "Building consul-webui ${CONSUL_VERSION} package" )
-	@( mkdir -p build/consul-webui )
-	@( cp -R templates/consul-webui/* build/consul-webui/ )
-	@( fpm -s dir -t deb -m ${PACKAGER} -a all \
-			-C build/consul-webui \
-			--deb-changelog changes/consul-webui \
-			--depends consul \
-			--category web \
-			--package dist/consul-webui_${CONSUL_VERSION}-${CONSUL_ITERATION}_all.deb \
-			--config-files etc/consul.d/10-webui.json \
-			--name consul-webui --version ${CONSUL_VERSION} --iteration ${CONSUL_ITERATION} \
-			--description "Consul Web UI" . )
 
 dist/consul-replicate_${REPLICATE_VERSION}-${REPLICATE_ITERATION}_${ARCH}.deb: build/consul-replicate/usr/sbin/consul-replicate
 	@( mkdir -p dist )
@@ -72,7 +59,7 @@ dist/consul-replicate_${REPLICATE_VERSION}-${REPLICATE_ITERATION}_${ARCH}.deb: b
 			--category utils \
 			--deb-changelog changes/consul-replicate \
 			--deb-default build/consul-replicate/etc/default/consul-replicate \
-			--deb-upstart build/consul-replicate/etc/init/consul-replicate \
+			--deb-upstart build/consul-replicate/etc/init/consul-replicate.conf \
 			--provides consul-replicate \
 			--description "Consul cross-DC KV replication daemon" . )
 
@@ -109,37 +96,51 @@ dist/envconsul_${ENVCONSUL_VERSION}-${ENVCONSUL_ITERATION}_${ARCH}.deb: build/en
 			--category utils \
 			--config-files etc/envconsul.d/00-default.hcl \
 			--deb-default build/envconsul/etc/default/envconsul \
-			--deb-upstart build/envconsul/etc/init/envconsul \
+			--deb-upstart build/envconsul/etc/init/envconsul.conf \
 			--provides envconsul \
 			--description "Read and set environmental variables for processes from Consul" . )
+
+dist/hashi-ui_${HASHIUI_VERSION}-${HASHIUI_ITERATION}_${ARCH}.deb: build/hashi-ui/usr/sbin/hashi-ui
+	@( mkdir -p dist )
+	@( echo "Building hashi-ui ${HASHIUI_VERSION} package" )
+	@( mkdir -p build/hashi-ui )
+	@( cp -R templates/hashi-ui/* build/hashi-ui/ )
+	@( fpm -s dir -t deb -m ${PACKAGER} -a ${ARCH} \
+			-C build/hashi-ui \
+			--package dist/hashi-ui_${HASHIUI_VERSION}-${HASHIUI_ITERATION}_${ARCH}.deb \
+			--name hashi-ui --version ${HASHIUI_VERSION} --iteration ${HASHIUI_ITERATION} \
+			--deb-changelog changes/hashi-ui \
+			--depends consul \
+			--category utils \
+			--deb-default build/hashi-ui/etc/default/hashi-ui \
+			--deb-upstart build/hashi-ui/etc/init/hashi-ui.conf \
+			--provides hashi-ui \
+			--description "A modern user interface for @hashicorp Consul & Nomad" . )
 
 build/consul/usr/sbin/consul:
 	@( echo "Downloading consul ${CONSUL_VERSION}" )
 	@( mkdir -p build/consul/usr/sbin/ )
-	@( curl -s -o /tmp/${CONSUL_VERSION}_linux_${ARCH}.zip -L https://dl.bintray.com/mitchellh/consul/${CONSUL_VERSION}_linux_${ARCH}.zip )
+	@( curl -s -o /tmp/${CONSUL_VERSION}_linux_${ARCH}.zip -L https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_${ARCH}.zip )
 	@( unzip -q -d build/consul/usr/sbin/ /tmp/${CONSUL_VERSION}_linux_${ARCH}.zip )
 	@( rm /tmp/${CONSUL_VERSION}_linux_${ARCH}.zip )
 
 build/consul-replicate/usr/sbin/consul-replicate:
 	@( echo "Downloading consul-replicate ${REPLICATE_VERSION}" )
 	@( mkdir -p build/consul-replicate/usr/sbin )
-	@( curl -o build/consul-replicate/usr/sbin/consul-replicate -s -L https://github.com/hashicorp/consul-replicate/releases/download/v${REPLICATE_VERSION}/consul-replicate_linux_${ARCH} )
-	@( chmod a+x build/consul-replicate/usr/sbin/consul-replicate )
+	@( curl -s -L https://releases.hashicorp.com/consul-replicate/v${REPLICATE_VERSION}/consul-replicate_v${REPLICATE_VERSION}_linux_{ARCH}.tgz | tar xvz -C build/consul-replicate/usr/sbin --strip-components=1 )
 
 build/consul-template/usr/sbin/consul-template:
 	@( echo "Downloading consul-template ${TEMPLATE_VERSION}" )
 	@( mkdir -p build/consul-template/usr/sbin )
-	@( curl -s -L https://github.com/hashicorp/consul-template/releases/download/v${TEMPLATE_VERSION}/consul-template_${TEMPLATE_VERSION}_linux_${ARCH}.tar.gz | tar xvz -C build/consul-template/usr/sbin --strip-components=1 )
-
-build/consul-webui/usr/share/consul-webui:
-	@( echo "Downloading consul-webui ${CONSUL_VERSION}" )
-	@( mkdir -p build/consul-webui/usr/share )
-	@( curl -s -o /tmp/${CONSUL_VERSION}_web_ui.zip -L https://dl.bintray.com/mitchellh/consul/${CONSUL_VERSION}_web_ui.zip )
-	@( unzip -q -d build/consul-webui/usr/share/ /tmp/${CONSUL_VERSION}_web_ui.zip )
-	@( mv build/consul-webui/usr/share/dist build/consul-webui/usr/share/consul-webui )
-	@( rm /tmp/${CONSUL_VERSION}_web_ui.zip )
+	@( curl -s -L https://releases.hashicorp.com/consul-template/${TEMPLATE_VERSION}/consul-template_${TEMPLATE_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/consul-template/usr/sbin --strip-components=1 )
 
 build/envconsul/usr/sbin/envconsul:
 	@( echo "Downloading envconsul ${ENVCONSUL_VERSION}" )
 	@( mkdir -p build/envconsul/usr/sbin )
-	@( curl -s -L https://github.com/hashicorp/envconsul/releases/download/v${ENVCONSUL_VERSION}/envconsul_${ENVCONSUL_VERSION}_linux_${ARCH}.tar.gz | tar xvz -C build/envconsul/usr/sbin --strip-components=1 )
+	@( curl -s -L https://releases.hashicorp.com/envconsul/${ENVCONSUL_VERSION}/envconsul_${ENVCONSUL_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/envconsul/usr/sbin --strip-components=1 )
+
+build/hashi-ui/usr/sbin/hashi-ui:
+	@( echo "Downloading hashi-ui ${HASHIUI_VERSION}" )
+	@( mkdir -p build/hashi-ui/usr/sbin )
+	@( curl -s -o build/hashi-ui/usr/sbin/hashi-ui -L https://github.com/jippi/hashi-ui/releases/download/v${HASHIUI_VERSION}/hashi-ui-linux-amd64 )
+	@( chmod a+x build/hashi-ui/usr/sbin/hashi-ui )
