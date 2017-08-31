@@ -1,0 +1,3 @@
+# Options for hashi-ui
+# See https://github.com/jippi/hashi-ui for more details
+HASHIUI_OPTIONS="--consul-enable"
