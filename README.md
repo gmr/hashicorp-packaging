@@ -1,6 +1,7 @@
-Consul Packaging
-================
-Makefile and templates for creating deb packages for [Consul](https://consul.io).
+HashiCorp Packaging
+===================
+Makefile and templates for creating deb packages for [HashiCorp](https://www.hashicorp.com)
+(and ecosystem) projects.
 
 Uses [fpm](https://github.com/jordansissel/fpm) for building the packages and a Vagrant VM to build them in.
 
@@ -12,6 +13,9 @@ Packages built
 - consul-template
 - envconsul
 - hashi-ui
+- nomad
+- packer
+- vault
 
 Usage
 -----

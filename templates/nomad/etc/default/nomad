@@ -1,0 +1,3 @@
+# Options for Nomad
+# See https://github.com/hashicorp/nomad/ for more details
+NOMAD_OPTIONS=""
