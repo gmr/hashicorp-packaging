@@ -1,3 +1,34 @@
+vault (0.8.2-1) trusty; urgency=low
+
+ * In prior versions of Vault, if authenticating via AWS IAM and requesting a periodic token, the period was not properly respected. This could lead to tokens expiring unexpectedly, or a token lifetime being longer than expected. Upon token renewal with Vault 0.8.2 the period will be properly enforced.
+ * vault ssh users should supply -mode and -role to reduce the number of API calls. A future version of Vault will mark these optional values are required. Failure to supply -mode or -role will result in a warning.
+ * Vault plugins will first briefly run a restricted version of the plugin to fetch metadata, and then lazy-load the plugin on first request to prevent crash/deadlock of Vault during the unseal process. Plugins will need to be built with the latest changes in order for them to run properly.
+ * Lazy Lease Loading: On startup, Vault will now load leases from storage in a lazy fashion (token checks and revocation/renewal requests still force an immediate load). For larger installations this can significantly reduce downtime when switching active nodes or bringing Vault up from cold start.
+ * SSH CA Login with vault ssh: vault ssh now supports the SSH CA backend for authenticating to machines. It also supports remote host key verification through the SSH CA backend, if enabled.
+ * Signing of Self-Issued Certs in PKI: The pki backend now supports signing self-issued CA certs. This is useful when switching root CAs.
+ * audit/file: Allow specifying stdout as the file_path to log to standard output [GH-3235]
+ * auth/aws: Allow wildcards in bound_iam_principal_id [GH-3213]
+ * auth/okta: Compare groups case-insensitively since Okta is only case-preserving [GH-3240]
+ * auth/okta: Standarize Okta configuration APIs across backends [GH-3245]
+ * cli: Add subcommand autocompletion that can be enabled with vault -autocomplete-install [GH-3223]
+ * cli: Add ability to handle wrapped responses when using vault auth. What is output depends on the other given flags; see the help output for that command for more information. [GH-3263]
+ * core: TLS cipher suites used for cluster behavior can now be set via cluster_cipher_suites in configuration [GH-3228]
+ * core: The plugin_name can now either be specified directly as part of the parameter or within the config object when mounting a secret or auth backend via sys/mounts/:path or sys/auth/:path respectively [GH-3202]
+ * core: It is now possible to update the description of a mount when mount-tuning, although this must be done through the HTTP layer [GH-3285]
+ * secret/databases/mongo: If an EOF is encountered, attempt reconnecting and retrying the operation [GH-3269]
+ * secret/pki: TTLs can now be specified as a string or an integer number of seconds [GH-3270]
+ * secret/pki: Self-issued certs can now be signed via pki/root/sign-self-issued [GH-3274]
+ * storage/gcp: Use application default credentials if they exist [GH-3248]
+ * auth/aws: Properly use role-set period values for IAM-derived token renewals [GH-3220]
+ * auth/okta: Fix updating organization/ttl/max_ttl after initial setting [GH-3236]
+ * core: Fix PROXY when underlying connection is TLS [GH-3195]
+ * core: Policy-related commands would sometimes fail to act case-insensitively [GH-3210]
+storage/consul: Fix parsing TLS configuration when using a bare IPv6 address [GH-3268]
+ * plugins: Lazy-load plugins to prevent crash/deadlock during unseal process. [GH-3255]
+ * plugins: Skip mounting plugin-based secret and credential mounts when setting up mounts if the plugin is no longer present in the catalog. [GH-3255]
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 11 Sep 2017 12:00:00 -0400
+
 vault (0.8.1-1) trusty; urgency=low
 
   * New upstream release.
