@@ -1,3 +1,9 @@
+vault (0.8.2-2) trusty; urgency=low
+
+* Fix the init script
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Tue, 12 Sep 2017 12:00:00 -0400
+
 vault (0.8.2-1) trusty; urgency=low
 
  * In prior versions of Vault, if authenticating via AWS IAM and requesting a periodic token, the period was not properly respected. This could lead to tokens expiring unexpectedly, or a token lifetime being longer than expected. Upon token renewal with Vault 0.8.2 the period will be properly enforced.
@@ -27,7 +33,7 @@ storage/consul: Fix parsing TLS configuration when using a bare IPv6 address [GH
  * plugins: Lazy-load plugins to prevent crash/deadlock during unseal process. [GH-3255]
  * plugins: Skip mounting plugin-based secret and credential mounts when setting up mounts if the plugin is no longer present in the catalog. [GH-3255]
 
- -- Gavin M. Roy <gavinr@aweber.com>  Thu, 11 Sep 2017 12:00:00 -0400
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 1 Sep 2017 12:00:00 -0400
 
 vault (0.8.1-1) trusty; urgency=low
 
