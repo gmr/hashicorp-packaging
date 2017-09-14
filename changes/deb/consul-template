@@ -2,7 +2,7 @@ consul-template (0.19.3-2) trusty; urgency=high
 
   * Actually contain consul-template binary in the package
 
- -- Gavin M. Roy <gavinr@aweber.com>  Thu, 14 Sep 2017 17:00:00 -0400
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 14 Sep 2017 12:00:00 -0400
 
  consul-template (0.19.3-1) trusty; urgency=low
 

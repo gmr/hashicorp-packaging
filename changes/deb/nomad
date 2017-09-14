@@ -19,7 +19,7 @@ nomad (0.6.3-1) trusty; urgency=low
  * driver/docker: Fix server url passed to credential helpers and properly capture error output [GH-3165]
  * jobspec: Allow distinct_host constraint to have L/RTarget set [GH-3136]
 
- -- Gavin M. Roy <gavinr@aweber.com>  Tue, 14 Sep 2017 12:00:00 -0400
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 14 Sep 2017 12:00:00 -0400
 
 nomad (0.6.2-2) trusty; urgency=low
 
