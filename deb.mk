@@ -1,5 +1,5 @@
 .PHONY: debs
-debs: downloads dist/debs \
+debs: download dist/debs \
     	dist/debs/consul_${CONSUL_VERSION}-${CONSUL_ITERATION}_${ARCH}.deb \
       dist/debs/consul-replicate_${REPLICATE_VERSION}-${REPLICATE_ITERATION}_${ARCH}.deb \
       dist/debs/consul-template_${TEMPLATE_VERSION}-${TEMPLATE_ITERATION}_${ARCH}.deb \
@@ -130,7 +130,6 @@ dist/debs/nomad_${NOMAD_VERSION}-${NOMAD_ITERATION}_${ARCH}.deb:
 				--deb-changelog changes/deb/nomad \
 				--deb-no-default-config-files \
 				--depends consul \
-				--deb-recommends vault \
 				--category utils \
 				--license "MPL 2.0" \
 				--vendor HashiCorp \

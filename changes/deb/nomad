@@ -1,3 +1,9 @@
+nomad (0.6.3-2) trusty; urgency=low
+
+* Remove vault recommendation
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 14 Sep 2017 18:00:00 -0400
+
 nomad (0.6.3-1) trusty; urgency=low
 
  * api: Search handles prefix longer than allowed UUIDs [GH-3138]
