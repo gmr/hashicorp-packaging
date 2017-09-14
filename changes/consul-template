@@ -1,4 +1,10 @@
-consul-template (0.19.3-1) trusty; urgency=low
+consul-template (0.19.3-2) trusty; urgency=high
+
+  * Actually contain consul-template binary in the package
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 14 Sep 2017 17:00:00 -0400
+
+ consul-template (0.19.3-1) trusty; urgency=low
 
   * Fix a bug that would cause once mode to not exit when the file pre-existed on disk with the correct contents. [GH-1000]
 

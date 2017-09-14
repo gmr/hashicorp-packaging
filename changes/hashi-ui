@@ -1,3 +1,10 @@
+hashi-ui (0.18.0-1) trusty; urgency=low
+
+ * Build against Nomad 0.6.3 using Go 1.9
+ * Also upgraded multiple frontend components to their latest stable version
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 14 Sep 2017 17:00:00 -0400
+
 hashi-ui (0.17.0-1) trusty; urgency=low
 
   * New upstream release.

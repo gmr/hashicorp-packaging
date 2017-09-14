@@ -2,24 +2,24 @@ CONSUL_VERSION=0.9.3
 REPLICATE_VERSION=0.4.0
 TEMPLATE_VERSION=0.19.3
 ENVCONSUL_VERSION=0.7.2
-HASHIUI_VERSION=0.17.0
-NOMAD_VERSION=0.6.2
-PACKER_VERSION=1.0.4
+HASHIUI_VERSION=0.18.0
+NOMAD_VERSION=0.6.3
+PACKER_VERSION=1.1.0
 VAULT_VERSION=0.8.2
 
 CONSUL_ITERATION=1
-ENVCONSUL_ITERATION=1
+ENVCONSUL_ITERATION=2
 HASHIUI_ITERATION=1
-NOMAD_ITERATION=2
+NOMAD_ITERATION=1
 PACKER_ITERATION=1
 REPLICATE_ITERATION=1
-TEMPLATE_ITERATION=1
+TEMPLATE_ITERATION=2
 VAULT_ITERATION=2
 
 PACKAGER="Gavin M. Roy <gavinr@aweber.com>"
 ARCH=amd64
 
-all: consul consul-replicate consul-template envconsul hashi-ui nomad vault
+all: consul consul-replicate consul-template envconsul hashi-ui nomad packer vault
 
 clean:
 	@( rm -rf build/* )
@@ -36,6 +36,8 @@ envconsul: dist/envconsul_${ENVCONSUL_VERSION}-${ENVCONSUL_ITERATION}_${ARCH}.de
 hashi-ui: dist/hashi-ui_${HASHIUI_VERSION}-${HASHIUI_ITERATION}_${ARCH}.deb
 
 nomad: dist/nomad_${NOMAD_VERSION}-${NOMAD_ITERATION}_${ARCH}.deb
+
+packer: dist/packer_${PACKER_VERSION}-${PACKER_ITERATION}_${ARCH}.deb
 
 vault: dist/vault_${VAULT_VERSION}-${VAULT_ITERATION}_${ARCH}.deb
 
@@ -150,7 +152,7 @@ dist/nomad_${NOMAD_VERSION}-${NOMAD_ITERATION}_${ARCH}.deb: build/nomad/usr/sbin
 			--provides nomad \
 			--description "Easily Deploy Applications at Any Scale" . )
 
-dist/packer_${PACKER_VERSION}-${PACKER_ITERATION}_${ARCH}.deb: build/packer/usr/sbin/packer
+dist/packer_${PACKER_VERSION}-${PACKER_ITERATION}_${ARCH}.deb: build/packer/usr/bin/packer
 	@( mkdir -p dist )
 	@( echo "Building packer ${PACKER_VERSION} package" )
 	@( mkdir -p build/packer )
@@ -193,17 +195,17 @@ build/consul/usr/sbin/consul:
 build/consul-replicate/usr/sbin/consul-replicate:
 	@( echo "Downloading consul-replicate ${REPLICATE_VERSION}" )
 	@( mkdir -p build/consul-replicate/usr/sbin )
-	@( curl -s https://releases.hashicorp.com/consul-replicate/${REPLICATE_VERSION}/consul-replicate_${REPLICATE_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/consul-replicate/usr/sbin --strip-components=1 )
+	@( curl -s https://releases.hashicorp.com/consul-replicate/${REPLICATE_VERSION}/consul-replicate_${REPLICATE_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/consul-replicate/usr/sbin )
 
 build/consul-template/usr/sbin/consul-template:
 	@( echo "Downloading consul-template ${TEMPLATE_VERSION}" )
 	@( mkdir -p build/consul-template/usr/sbin )
-	@( curl -s https://releases.hashicorp.com/consul-template/${TEMPLATE_VERSION}/consul-template_${TEMPLATE_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/consul-template/usr/sbin --strip-components=1 )
+	@( curl -s https://releases.hashicorp.com/consul-template/${TEMPLATE_VERSION}/consul-template_${TEMPLATE_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/consul-template/usr/sbin )
 
 build/envconsul/usr/sbin/envconsul:
 	@( echo "Downloading envconsul ${ENVCONSUL_VERSION}" )
 	@( mkdir -p build/envconsul/usr/sbin )
-	@( curl -s https://releases.hashicorp.com/envconsul/${ENVCONSUL_VERSION}/envconsul_${ENVCONSUL_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/envconsul/usr/sbin --strip-components=1 )
+	@( curl -s https://releases.hashicorp.com/envconsul/${ENVCONSUL_VERSION}/envconsul_${ENVCONSUL_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/envconsul/usr/sbin )
 
 build/hashi-ui/usr/sbin/hashi-ui:
 	@( echo "Downloading hashi-ui ${HASHIUI_VERSION}" )
@@ -218,10 +220,12 @@ build/nomad/usr/sbin/nomad:
 	@( unzip -q -d build/nomad/usr/sbin/ /tmp/nomad_${NOMAD_VERSION}_linux_${ARCH}.zip )
 	@( rm /tmp/nomad_${NOMAD_VERSION}_linux_${ARCH}.zip )
 
-build/packer/usr/sbin/packer:
-	@( echo "Downloading npacker ${PACKER_VERSION}" )
+build/packer/usr/bin/packer:
+	@( echo "Downloading packer ${PACKER_VERSION}" )
 	@( mkdir -p build/packer/usr/bin )
-	@( curl -s https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_${ARCH}.tgz | tar xvz -C build/packer/usr/sbin --strip-components=1 )
+	@( curl -s -o /tmp/packer_${PACKER_VERSION}_linux_${ARCH}.zip https://releases.hashicorp.com/packer/${PACKER_VERSION}/packer_${PACKER_VERSION}_linux_${ARCH}.zip )
+	@( unzip -q -d build/packer/usr/bin/ /tmp/packer_${PACKER_VERSION}_linux_${ARCH}.zip )
+	@( rm /tmp/packer_${PACKER_VERSION}_linux_${ARCH}.zip )
 
 build/vault/usr/sbin/vault:
 	@( echo "Downloading vault ${VAULT_VERSION}" )
