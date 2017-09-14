@@ -1,3 +1,9 @@
+vault (0.8.2-3) trusty; urgency=low
+
+* Fix the init.d script / upstart naming
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Tue, 14 Sep 2017 12:00:00 -0400
+
 vault (0.8.2-2) trusty; urgency=low
 
 * Fix the init script
