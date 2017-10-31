@@ -1,3 +1,16 @@
+hashi-ui (0.22.0-1) trusty; urgency=low
+
+ * [nomad] evaluation list now supports filters
+ * [nomad] the job column now have a health column, which is checking if the desired number of allocations are actually running for the job
+ * [nomad] only show the deployment canary actions if the deployment have canaries
+ * [nomad] allow using Hashi-UI actions over HTTP (webservice style) - see /API.md
+ * [nomad] improve the allocation consul health check logic and UX
+ * [nomad] better use of the screen width for job view, now actions will show up as buttons if there is available space
+ * [shared] cleanup JS dependencies
+ * [shared] upgrade JS dependencies
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Tue, 31 Oct 2017 10:00:00 -0400
+
 hashi-ui (0.18.0-1) trusty; urgency=low
 
  * Build against Nomad 0.6.3 using Go 1.9
