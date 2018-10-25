@@ -1,10 +1,10 @@
 .PHONY: download
 download: downloads \
 	downloads/consul \
+	downloads/consul-esm \
 	downloads/consul-replicate \
 	downloads/consul-template \
 	downloads/envconsul \
-	downloads/hashi-ui \
 	downloads/nomad \
 	downloads/packer \
 	downloads/terraform \
@@ -19,22 +19,21 @@ downloads/consul:
 	@( unzip -q -d downloads/ /tmp/consul_${CONSUL_VERSION}_linux_${ARCH}.zip )
 	@( rm /tmp/consul_${CONSUL_VERSION}_linux_${ARCH}.zip )
 
+downloads/consul-esm:
+	@( echo "Downloading consul-esm ${CONSUL_ESM_VERSION}" )
+	@( curl -s https://releases.hashicorp.com/consul-esm/${CONSUL_ESM_VERSION}/consul-esm_${CONSUL_ESM_VERSION}_linux_${ARCH}.tgz | tar xz -C downloads/ )
+
 downloads/consul-replicate:
-	@( echo "Downloading consul-replicate ${REPLICATE_VERSION}" )
-	@( curl -s https://releases.hashicorp.com/consul-replicate/${REPLICATE_VERSION}/consul-replicate_${REPLICATE_VERSION}_linux_${ARCH}.tgz | tar xz -C downloads/ )
+	@( echo "Downloading consul-replicate ${CONSUL_REPLICATE_VERSION}" )
+	@( curl -s https://releases.hashicorp.com/consul-replicate/${CONSUL_REPLICATE_VERSION}/consul-replicate_${CONSUL_REPLICATE_VERSION}_linux_${ARCH}.tgz | tar xz -C downloads/ )
 
 downloads/consul-template:
-	@( echo "Downloading consul-template ${TEMPLATE_VERSION}" )
-	@( curl -s https://releases.hashicorp.com/consul-template/${TEMPLATE_VERSION}/consul-template_${TEMPLATE_VERSION}_linux_${ARCH}.tgz | tar xz -C downloads/ )
+	@( echo "Downloading consul-template ${CONSUL_TEMPLATE_VERSION}" )
+	@( curl -s https://releases.hashicorp.com/consul-template/${CONSUL_TEMPLATE_VERSION}/consul-template_${CONSUL_TEMPLATE_VERSION}_linux_${ARCH}.tgz | tar xz -C downloads/ )
 
 downloads/envconsul:
 	@( echo "Downloading envconsul ${ENVCONSUL_VERSION}" )
 	@( curl -s https://releases.hashicorp.com/envconsul/${ENVCONSUL_VERSION}/envconsul_${ENVCONSUL_VERSION}_linux_${ARCH}.tgz | tar xz -C downloads/ )
-
-downloads/hashi-ui:
-	@( echo "Downloading hashi-ui ${HASHIUI_VERSION}" )
-	@( curl -s -o downloads/hashi-ui -L https://github.com/jippi/hashi-ui/releases/download/v${HASHIUI_VERSION}/hashi-ui-linux-amd64 )
-	@( chmod a+x downloads/hashi-ui )
 
 downloads/nomad:
 	@( echo "Downloading nomad ${NOMAD_VERSION}" )
@@ -59,4 +58,3 @@ downloads/vault:
 	@( curl -s -o /tmp/vault_${VAULT_VERSION}_linux_${ARCH}.zip -L https://releases.hashicorp.com/vault/${VAULT_VERSION}/vault_${VAULT_VERSION}_linux_${ARCH}.zip )
 	@( unzip -q -d downloads/ /tmp/vault_${VAULT_VERSION}_linux_${ARCH}.zip )
 	@( rm /tmp/vault_${VAULT_VERSION}_linux_${ARCH}.zip )
-

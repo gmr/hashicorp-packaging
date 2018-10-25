@@ -1,0 +1,3 @@
+# Options for Consul ESM
+# See https://github.com/hashicorp/consul-esm for more details
+CONSUL_ESM_OPTIONS=""

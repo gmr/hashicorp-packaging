@@ -1,0 +1,19 @@
+[Unit]
+Description=Consul cross-DC KV replication daemon
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User=consul
+Group=consul
+ExecStart=consul-replicate \
+  -dst-prefix=${CONSUL_REPLICATE_PREFIX} \
+  -src=${CONSUL_REPLICATE_SRC} \
+  -prefix=${CONSUL_REPLICATE_SRC_PREFIX} \
+  ${CONSUL_REPLICATE_OPTIONS}
+KillMode=process
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target

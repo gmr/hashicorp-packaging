@@ -1,0 +1,15 @@
+[Unit]
+Description=Generic template rendering and notifications with Consul
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=consul-template \
+  -config=/etc/consul-template.d/ \
+  ${CONSUL_TEMPLATE_OPTIONS}
+KillMode=process
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target

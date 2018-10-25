@@ -1,0 +1,27 @@
+# Consul ESM
+#
+# External service monitoring for Consul
+
+description "Consul ESM"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+umask 022
+
+pre-start script
+    test -x /usr/sbin/consul-esm || { stop; exit 0; }
+end script
+
+script
+  # Source /etc/default/consul-esm if exists. Otherwise defaults.
+  if [ -f /etc/default/consul-esm ]; then
+    . /etc/default/consul-esm
+  else
+    CONSUL_ESM_OPTIONS=""
+  fi
+
+  exec consul-esm -config-file=/etc/consul-esm.hcl ${CONSUL_ESM_OPTIONS}
+end script

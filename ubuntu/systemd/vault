@@ -1,0 +1,15 @@
+[Unit]
+Description=Hashcorp Vault
+After=network-online.target
+
+[Service]
+User=vault
+Group=vault
+Type=simple
+PIDFile=/var/run/vault/vault.pid
+ExecStart=/usr/sbin/vault server -config=/etc/vault.d ${VAULT_OPTIONS}
+ExecStop=/usr/sbin/vault operator step-down
+ExecReload=/bin/kill -s HUP $MAINPID
+
+[Install]
+WantedBy=multi-user.target
