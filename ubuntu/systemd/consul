@@ -1,7 +1,9 @@
 [Unit]
-Description=Consul agent
+Description="HashiCorp Consul - A service mesh solution"
+Documentation=https://www.consul.io/
 Requires=network-online.target
 After=network-online.target
+ConditionFileNotEmpty=/etc/consul.d/consul.hcl
 
 [Service]
 User=consul
@@ -13,11 +15,11 @@ ExecStart=/usr/sbin/consul agent \
     -config-dir=/etc/consul.d/ \
     -pid-file=/var/run/consul/consul.pid \
     $CONSUL_OPTS
-ExecReload=/bin/kill -HUP $MAINPID
-KillMode=process
+ExecReload=/usr/sbin/consul reload
 PIDFile=/var/run/consul/consul.pid
+KillMode=process
 Restart=on-failure
-RestartSec=1min
+LimitNOFILE=65536
 
 [Install]
 WantedBy=multi-user.target
