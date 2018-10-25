@@ -1,0 +1,17 @@
+[Unit]
+Description=Consul ESM agent
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+User=consul
+Group=consul
+ExecStart=consul-esm \
+  -config-file=/etc/consul-esm.hcl \
+  $CONSUL_ESM_OPTIONS
+KillMode=process
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target

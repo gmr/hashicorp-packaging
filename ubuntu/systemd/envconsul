@@ -1,0 +1,15 @@
+[Unit]
+Description=Read and set environmental variables for processes from Consul
+Requires=network-online.target
+After=network-online.target
+
+[Service]
+ExecStart=envconsul \
+  -config=/etc/envconsul.d/ \
+  ${ENVCONSUL_OPTIONS}
+KillMode=process
+Restart=on-failure
+RestartSec=1min
+
+[Install]
+WantedBy=multi-user.target

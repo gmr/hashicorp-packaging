@@ -1,0 +1,27 @@
+# nomad
+#
+# Easily Deploy Applications at Any Scale
+
+description "nomad"
+
+start on runlevel [2345]
+stop on runlevel [!2345]
+
+respawn
+respawn limit 10 5
+umask 022
+
+pre-start script
+    test -x /usr/sbin/nomad || { stop; exit 0; }
+end script
+
+script
+  # Source /etc/default/nomad if exists. Otherwise defaults.
+  if [ -f /etc/default/nomad ]; then
+    . /etc/default/nomad
+  else
+    NOMAD_OPTIONS=""
+  fi
+
+  exec nomad agent -config=/etc/nomad.d/ ${NOMAD_OPTIONS}
+end script

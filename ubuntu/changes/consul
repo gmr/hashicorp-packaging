@@ -1,0 +1,112 @@
+consul (1.3.0-1) bionic; urgency=low
+
+ * Connect Envoy Support: This release includes support for using Envoy as a Proxy with Consul Connect (Beta). Read the announcement blog post or reference documentation for more detail.
+ * Sidecar Service Registration: As part of the ongoing Connect Beta we add a new, more convenient way to register sidecar proxies from within a regular service definition.
+ * Deprecating Managed Proxies: The Connect Beta launched with a feature named "managed proxies". These will no longer be supported in favour of the simpler sidecar service registration. Existing functionality will not be removed until a later major release but will not be supported with fixes. See the deprecation notice for full details.
+ * New command consul services register and consul services deregister for registering and deregistering services from the command line. [GH-4732]
+ * api: Service discovery endpoints now support caching results in the local agent. [GH-4541]
+ * dns: Added SOA configuration for DNS settings. [GH-4713]
+ * ui: Improve layout of node 'cards' by restricting the grid layout to a maximum of 4 columns [GH-4761]
+ * ui: Load the TextEncoder/Decoder polyfill dynamically so it's not downloaded to browsers with native support [GH-4767]
+ * cli: consul connect proxy now supports a --sidecar-for option to allow simple integration with new sidecar service registrations.
+ * api: /health and /catalog endpoints now support filtering by multiple tags [GH-1781]
+ * agent: Only update service ModifyIndex when it's state actually changes. This makes service watches much more efficient on large clusters. [GH-4720]
+ * config: Operators can now enable script checks from local config files only. [GH-4711]
+ * agent: (Consul Enterprise) Fixed an issue where the non_voting_server setting could be ignored when bootstrapping the cluster. [GH-4699]
+ * cli: forward SIGTERM to child process of 'lock' and 'watch' subcommands [GH-4737]
+ * connect: Fix to ensure leaf certificates for a service are not shared between clients on the same agent using different ACL tokens [GH-4736]
+ * ui: Ensure service names that contain slashes are displayable [GH-4756]
+ * watch: Fix issue with HTTPs only agents not executing watches properly. [GH-4727]
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 25 Oct 2018 14:00:00 -0400
+
+consul (1.0.0-1) trusty; urgency=low
+
+ * Fixed an XSS issue with Consul's built-in web UI where node names were not being properly escaped. [GH-3578]
+ * Raft Protocol Now Defaults to 3: The -raft-protocol default has been changed from 2 to 3, enabling all Autopilot features by default. Version 3 requires Consul running 0.8.0 or newer on all servers in order to work, so if you are upgrading with older servers in a cluster then you will need to set this back to 2 in order to upgrade. See Raft Protocol Version Compatibility for more details. Also the format of peers.json used for outage recovery is different when running with the lastest Raft protocol. See Manual Recovery Using peers.json for a description of the required format. [GH-3477]
+ * Config Files Require an Extension: As part of supporting the HCL format for Consul's config files, an .hcl or .json extension is required for all config files loaded by Consul, even when using the -config-file argument to specify a file directly. [GH-3480]
+ * Deprecated Options Have Been Removed: All of Consul's previously deprecated command line flags and config options have been removed, so these will need to be mapped to their equivalents before upgrading. [GH-3480]
+ * statsite_prefix Renamed to metrics_prefix: Since the statsite_prefix configuration option applied to all telemetry providers, statsite_prefix was renamed to metrics_prefix. Configuration files will need to be updated when upgrading to this version of Consul. [GH-3498]
+ * advertise_addrs Removed: This configuration option was removed since it was redundant with advertise_addr and advertise_addr_wan in combination with ports and also wrongly stated that you could configure both host and port. [GH-3516]
+ * Escaping Behavior Changed for go-discover Configs: The format for -retry-join and -retry-join-wan values that use go-discover cloud auto joining has changed. Values in key=val sequences must no longer be URL encoded and can be provided as literals as long as they do not contain spaces, backslashes \ or double quotes ". If values contain these characters then use double quotes as in "some key"="some value". Special characters within a double quoted string can be escaped with a backslash \. [GH-3417]
+ * HTTP Verbs are Enforced in Many HTTP APIs: Many endpoints in the HTTP API that previously took any HTTP verb now check for specific HTTP verbs and enforce them. This may break clients relying on the old behavior. [GH-3405]
+ * Unauthorized KV Requests Return 403: When ACLs are enabled, reading a key with an unauthorized token returns a 403. This previously returned a 404 response.
+ * Config Section of Agent Self Endpoint has Changed: The /v1/agent/self endpoint's Config section has often been in flux as it was directly returning one of Consul's internal data structures. This configuration structure has been moved under DebugConfig, and is documents as for debugging use and subject to change, and a small set of elements of Config have been maintained and documented. See Read Configuration endpoint documentation for details. [GH-3532]
+ * Deprecated configtest Command Removed: The configtest command was deprecated and has been superseded by the validate command.
+ * Undocumented Flags in validate Command Removed: The validate command supported the -config-file and -config-dir command line flags but did not document them. This support has been removed since the flags are not required.
+ * Metric Names Updated: Metric names no longer start with consul.consul. To help with transitioning dashboards and other metric consumers, the field enable_deprecated_names has been added to the telemetry section of the config, which will enable metrics with the old naming scheme to be sent alongside the new ones. [GH-3535]
+ * Checks Validated On Agent Startup: Consul agents now validate health check definitions in their configuration and will fail at startup if any checks are invalid. In previous versions of Consul, invalid health checks would get skipped. [GH-3559]
+ * Support for HCL Config Files: Consul now supports HashiCorp's HCL format for config files. This is easier to work with than JSON and supports comments. As part of this change, all config files will need to have either an .hcl or .json extension in order to specify their format. [GH-3480]
+ * Support for Binding to Multiple Addresses: Consul now supports binding to multiple addresses for its HTTP, HTTPS, and DNS services. You can provide a space-separated list of addresses to -client and addresses configurations, or specify a go-sockaddr template that resolves to multiple addresses. [GH-3480]
+ * Support for RFC1434 DNS TXT records: Consul DNS responses now contain the node meta data encoded according to RFC1434 as TXT records. [GH-3343]
+ * Support for Running Subproccesses Directly Without a Shell: Consul agent checks and watches now support an args configuration which is a list of arguments to run for the subprocess, which runs the subprocess directly without a shell. The old script and handler configurations are now deprecated (specify a shell explicitly if you require one). A -shell=false option is also available on consul lock, consul watch, and consul exec to run the subprocesses associated with those without a shell. [GH-3509]
+ * Sentinel Integration: (Consul Enterprise) Consul's ACL system integrates with Sentinel to enable code policies that apply to KV writes.
+ * agent: Added support to detect public IPv4 and IPv6 addresses on AWS. [GH-3471]
+ * agent: Improved /v1/operator/raft/configuration endpoint which allows Consul to avoid an extra agent RPC call for the consul operator raft list-peers command. [GH-3449]
+ * agent: Improved ACL system for the KV store to support list permissions. This behavior can be opted in. For more information, see the ACL Guide. [GH-3511]
+ * agent: Updates miekg/dns library to later version to pick up bug fixes and improvements. [GH-3547]
+ * agent: Added automatic retries to the RPC path, and a brief RPC drain time when servers leave. These changes make Consul more robust during graceful leaves of Consul servers, such as during upgrades, and help shield applications from "no leader" errors. These are configured with new performance options. [GH-5414]
+ * agent: Added a new discard_check_output agent-level configuration option that can be used to trade off write load to the Consul servers vs. visibility of health check output. This is reloadable so it can be toggled without fully restarting the agent. [GH-3562]
+ * api: Updated the API client to ride out network errors when monitoring locks and semaphores. [GH-3553]
+ * build: Updated Go toolchain to version 1.9.1. [GH-3537]
+ * cli: consul lock and consul watch commands will forward TERM and KILL signals to their child subprocess. [GH-3509]
+ * cli: Added support for autocompletion. [GH-3412]
+ * server: Updated BoltDB to final version 1.3.1. [GH-3502]
+ * server: Improved dead member reap algorithm to fix edge cases where servers could get left behind. [GH-3452]
+ * agent: Fixed an issue where disabling both the http and https interfaces would cause a watch-related error on agent startup, even when no watches were defined. [GH-3425]
+ * agent: Added an additional step to kill health check scripts that timeout on all platforms except Windows, and added a wait so that it's not possible to run multiple instances of the same health check script at the same time. [GH-3565]
+ * cli: If the consul operator raft list-peers command encounters an error it will now exit with a non-zero exit code. [GH-3513]
+ * cli: CLI commands will now show help for all of their arguments. [GH-3536]
+ * server: Fixed an issue where the leader server could get into a state where it was no longer performing the periodic leader loop duties and unable to serve consistent reads after a barrier timeout error. [GH-3545]
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Tue, 31 Oct 2017 10:00:00 -0400
+
+consul (0.9.3-2) trusty; urgency=low
+
+ * Fix the init.d / upstart script naming
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 14 Sep 2017 12:00:00 -0400
+
+consul (0.9.3-1) trusty; urgency=low
+
+ * LAN Network Segments: (Consul Enterprise) Added a new Network Segments capability which allows users to configure Consul to support segmented LAN topologies with multiple, distinct gossip pools. [GH-3431]
+ * WAN Join for Cloud Providers: Added WAN support for retry join for cloud providers via go-discover, including Amazon AWS, Microsoft Azure, Google Cloud, and SoftLayer. This uses the same "provider" syntax supported for -retry-join via the -retry-join-wan configuration. [GH-3406]
+ * RPC Rate Limiter: Consul agents in client mode have a new limits configuration that enables a rate limit on RPC calls the agent makes to Consul servers. [GH-3140]
+ * agent: Switched to using a read lock for the agent's RPC dispatcher, which prevents RPC calls from getting serialized. [GH-3376]
+ * agent: When joining a cluster, Consul now skips the unique node ID constraint for Consul members running Consul older than 0.8.5. This makes it easier to upgrade to newer versions of Consul in an existing cluster with non-unique node IDs. [GH-3070]
+ * build: Upgraded Go version to 1.9. [GH-3428]
+ * server: Consul servers can re-establish quorum after all of them change their IP addresses upon a restart. [GH-1580]
+ * agent: Fixed an issue with consul watches not triggering when ACLs are enabled. [GH-3392]
+ * agent: Updated memberlist library for a deadlock fix. [GH-3396]
+ * agent: Fixed a panic when retrieving NS or SOA records on Consul clients (non-servers). This also changed the Consul server list to come from the catalog and not the agent's local state when serving these requests, so the results are consistent across a cluster. [GH-3407]
+ * cli: Updated the CLI library to pull in a fix that prevents all subcommands from being shown when showing the agent's usage list; now just top-level commands are shown. [GH-3448]
+ * server: Fixed an issue with Consul snapshots not saving on Windows because of errors with the fsync syscall. [GH-3409]
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Mon, 11 Sep 2017 17:00:00 -0400
+
+consul (0.9.2-1) trusty; urgency=low
+
+  * New upstream release.
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 31 Aug 2017 17:00:00 -0400
+
+consul (0.5.2-1) trusty; urgency=low
+
+  * Include datacenter in the members output
+  * HTTP Health Check sets user agent "Consul Health Check" [GH-951]
+  * Fixed memory leak caused by blocking query [GH-939]
+  * Remove unused constant [GH-941]
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 28 May 2015 10:45:00 +0000
+
+consul (0.5.0-2) trusty; urgency=low
+
+  * Fix file size issues.
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Wed, 25 Feb 2015 19:54:37 +0000
+
+consul (0.5.0-1) trusty; urgency=low
+
+  * New upstream release.
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Wed, 25 Feb 2015 19:29:37 +0000

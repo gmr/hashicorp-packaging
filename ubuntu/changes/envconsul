@@ -1,0 +1,31 @@
+envconsul (0.7.3-1) bionic; urgency=low
+
+  * Fixed an issue where the parent's environment could get supplied to the child process if envconsul is given an empty prefix, even when using -pristine [GH-159]
+  * Compile using Go 1.9.2 [GH-158]
+  * Fixed Makefile to use Go version from the environment [GH-157]
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 25 Oct 2018 14:00:00 -0400
+
+envconsul (0.7.2-2) trusty; urgency=low
+
+  * Actually distribute envconsul
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 14 Sep 2017 12:00:00 -0400
+
+envconsul (0.7.2-1) trusty; urgency=low
+
+  * New upstream release.
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 31 Aug 2017 17:00:00 -0400
+
+envconsul (0.5.0-2) trusty; urgency=low
+
+  * Fix filesize issues.
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Wed, 25 Feb 2015 19:54:37 +0000
+
+envconsul (0.5.0-1) trusty; urgency=low
+
+  * New upstream release.
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Wed, 25 Feb 2015 19:29:37 +0000

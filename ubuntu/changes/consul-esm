@@ -1,0 +1,8 @@
+consul-esm (0.3.0-1) bionic; urgency=low
+
+  * The work of health checking and node probing will now be divided up amongst all ESM agents that share a consul_service/consul_service_tag/consul_kv_path combination. This is done by the leader using the KV store for coordination. The consul_leader_key field has been replaced by consul_kv_path, which is a path to a KV directory for a coordinating set of ESM nodes to share.
+  * Added the node_probe_interval config field for controlling how often ESM will attempt to probe each external node.
+  * Check definitions can now be updated in-place. [GH-17]
+  * Fixed an issue where the coordinate loop would run constantly and burn CPU when there were no nodes to probe.
+
+ -- Gavin M. Roy <gavinr@aweber.com>  Thu, 25 Oct 2018 14:00:00 -0400
