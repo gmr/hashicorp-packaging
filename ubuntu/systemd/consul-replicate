@@ -6,7 +6,7 @@ After=network-online.target
 [Service]
 User=consul
 Group=consul
-ExecStart=consul-replicate \
+ExecStart=/usr/sbin/consul-replicate \
   -dst-prefix=${CONSUL_REPLICATE_PREFIX} \
   -src=${CONSUL_REPLICATE_SRC} \
   -prefix=${CONSUL_REPLICATE_SRC_PREFIX} \

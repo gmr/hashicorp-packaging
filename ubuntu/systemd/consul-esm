@@ -6,7 +6,7 @@ After=network-online.target
 [Service]
 User=consul
 Group=consul
-ExecStart=consul-esm \
+ExecStart=/usr/sbin/consul-esm \
   -config-file=/etc/consul-esm.hcl \
   $CONSUL_ESM_OPTIONS
 KillMode=process

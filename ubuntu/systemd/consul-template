@@ -4,7 +4,7 @@ Requires=network-online.target
 After=network-online.target
 
 [Service]
-ExecStart=consul-template \
+ExecStart=/usr/sbin/consul-template \
   -config=/etc/consul-template.d/ \
   ${CONSUL_TEMPLATE_OPTIONS}
 KillMode=process
