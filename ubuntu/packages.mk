@@ -31,8 +31,6 @@ ubuntu: download dist/ubuntu \
       dist/ubuntu/terraform_${TERRAFORM_VERSION}-${TERRAFORM_ITERATION}_${ARCH}.deb \
       dist/ubuntu/vault_${VAULT_VERSION}-${VAULT_ITERATION}_${ARCH}.deb
 
-ubuntu/consul: download dist/ubuntu dist/ubuntu/consul_${CONSUL_VERSION}-${CONSUL_ITERATION}_${ARCH}.deb
-
 dist/ubuntu:
 	@( mkdir -p dist/ubuntu )
 

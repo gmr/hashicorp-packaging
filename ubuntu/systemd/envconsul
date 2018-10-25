@@ -4,7 +4,7 @@ Requires=network-online.target
 After=network-online.target
 
 [Service]
-ExecStart=envconsul \
+ExecStart=/usr/sbin/envconsul \
   -config=/etc/envconsul.d/ \
   ${ENVCONSUL_OPTIONS}
 KillMode=process

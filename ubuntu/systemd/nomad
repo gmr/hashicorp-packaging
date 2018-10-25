@@ -6,7 +6,10 @@ After=network-online.target
 [Service]
 User=nomad
 Group=nomad
-ExecStart=nomad agent \
+PermissionsStartOnly=true
+ExecStartPre=-/bin/mkdir -p /var/run/nomad /var/lib/nomad
+ExecStartPre=/bin/chown -R nomad:nomad /var/run/nomad /var/lib/nomad
+ExecStart=/usr/sbin/nomad agent \
   -config=/etc/nomad.d/ \
   ${NOMAD_OPTIONS}
 KillMode=process
